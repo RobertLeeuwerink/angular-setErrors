@@ -22,13 +22,6 @@
       {{ (editMode | async) ? 'Stop editing' : 'Edit content' }}
     </button>
   </div>
-
-  <div *ngIf="form.status === 'INVALID'">
-    Error:
-    <span *ngIf="form.controls['userName'].errors?.message">{{
-      form.controls.userName.errors.message
-    }}</span>
-  </div>
 </form>
 <div *ngIf="!!newUser?.userName">
   new user:
