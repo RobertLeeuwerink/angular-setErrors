@@ -1,0 +1,35 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-md-6 mb-3" *ngIf="editMode[0]">
+      <input formControlName="userName" placeholder="first name" />
+      <input formControlName="userLastName" placeholder="last name" />
+    </div>
+    <div class="col-md-6 mb-3" *ngIf="!editMode[0]">
+      <b>First Name:</b> {{ form.value.userName }} <b>Last Name:</b>
+      {{ form.value.userLastName }}
+    </div>
+  </div>
+  <div class="btn-toolbar float-right">
+    <button class="btn btn-info mr-1" (click)="updateUser()">Update</button>
+    <button class="btn btn-dark" type="reset" (click)="reset()">Clear</button>
+    <button class="btn btn-dark" (click)="toggleEditor()">editMode</button>
+  </div>
+
+  <div *ngIf="form.status === 'INVALID'">
+    Error:
+    <span *ngIf="form.controls['userName'].errors?.message">{{
+      form.controls.userName.errors.message
+    }}</span>
+  </div>
+</form>
+<div *ngIf="update">
+  new user:
+  <br />
+  <b>First Name:</b> {{ newUser.userName }} <b>Last Name:</b>
+  {{ newUser.userLastName }}
+
+  <pre>
+    {{ form.getRawValue() | json }}
+    {{ form.controls.userName.errors | json }}
+  </pre>
+</div>
