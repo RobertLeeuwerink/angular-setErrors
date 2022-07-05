@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,13 +8,12 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  update = false;
   newUser = {};
   form = new FormGroup({
     userName: new FormControl(''),
     userLastName: new FormControl(''),
   });
-  editMode = [true];
+  editMode = new BehaviorSubject<boolean>(true);
 
   get userName() {
     return this.form.get('userName');
@@ -28,8 +28,6 @@ export class AppComponent {
       userName: this.form.get('userName').value,
       userLastName: this.form.get('userLastName').value,
     };
-    console.log(this.newUser); //here you can make PUT to firebase
-    this.update = true;
     this.addError();
   }
 
@@ -42,15 +40,12 @@ export class AppComponent {
     this.form.controls['userName'].setErrors({
       incorrect: true,
       message: 'Please enter a 5 digit value',
-
     });
-    this.form.get('userName').addAsyncValidators(ApiValidator())
-    this.form.controls['userName'].markAsTouched();
     this.form.updateValueAndValidity();
   }
 
   toggleEditor() {
-    this.editMode[0] = !this.editMode[0];
+    this.editMode.next(!this.editMode.getValue());
     console.log(this.form);
   }
 }
