@@ -24,11 +24,8 @@ export class AppComponent {
   }
 
   updateUser() {
-    this.newUser = {
-      userName: this.form.get('userName').value,
-      userLastName: this.form.get('userLastName').value,
-    };
-    this.addError();
+    this.newUser = this.form.getRawValue();
+    this.addError(); // this is to simulate a scenario where the back tells something is wrong we want to add that message to the form and keep it there until the conditions are corrected. currently gets cleared when we c
   }
 
   reset() {
